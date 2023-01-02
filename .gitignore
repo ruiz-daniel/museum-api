@@ -2,3 +2,4 @@
 MuseumApi/bin/*
 MuseumApi/obj/*
 MuseumApi/obj/Debug/*
+*.cache
