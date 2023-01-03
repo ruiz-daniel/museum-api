@@ -25,22 +25,22 @@ namespace MuseumApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Museum>>> Getmuseums()
         {
-          if (_context.museums == null)
+          if (_context.Museums == null)
           {
               return NotFound();
           }
-            return await _context.museums.ToListAsync();
+            return await _context.Museums.ToListAsync();
         }
 
         // GET: api/Museum/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Museum>> GetMuseum(Guid id)
         {
-          if (_context.museums == null)
+          if (_context.Museums == null)
           {
               return NotFound();
           }
-            var museum = await _context.museums.FindAsync(id);
+            var museum = await _context.Museums.FindAsync(id);
 
             if (museum == null)
             {
@@ -86,11 +86,11 @@ namespace MuseumApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Museum>> PostMuseum(Museum museum)
         {
-          if (_context.museums == null)
+          if (_context.Museums == null)
           {
-              return Problem("Entity set 'MuseumContext.museums'  is null.");
+              return Problem("Entity set 'Museumcontext.Museums'  is null.");
           }
-            _context.museums.Add(museum);
+            _context.Museums.Add(museum);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMuseum", new { id = museum.MuseumID }, museum);
@@ -100,17 +100,17 @@ namespace MuseumApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMuseum(Guid id)
         {
-            if (_context.museums == null)
+            if (_context.Museums == null)
             {
                 return NotFound();
             }
-            var museum = await _context.museums.FindAsync(id);
+            var museum = await _context.Museums.FindAsync(id);
             if (museum == null)
             {
                 return NotFound();
             }
 
-            _context.museums.Remove(museum);
+            _context.Museums.Remove(museum);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -118,7 +118,7 @@ namespace MuseumApi.Controllers
 
         private bool MuseumExists(Guid id)
         {
-            return (_context.museums?.Any(e => e.MuseumID == id)).GetValueOrDefault();
+            return (_context.Museums?.Any(e => e.MuseumID == id)).GetValueOrDefault();
         }
     }
 }

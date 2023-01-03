@@ -25,22 +25,22 @@ namespace MuseumApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Article>>> Getarticles()
         {
-          if (_context.articles == null)
+          if (_context.Articles == null)
           {
               return NotFound();
           }
-            return await _context.articles.ToListAsync();
+            return await _context.Articles.ToListAsync();
         }
 
         // GET: api/Article/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Article>> GetArticle(Guid id)
         {
-          if (_context.articles == null)
+          if (_context.Articles == null)
           {
               return NotFound();
           }
-            var article = await _context.articles.FindAsync(id);
+            var article = await _context.Articles.FindAsync(id);
 
             if (article == null)
             {
@@ -86,11 +86,11 @@ namespace MuseumApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Article>> PostArticle(Article article)
         {
-          if (_context.articles == null)
+          if (_context.Articles == null)
           {
-              return Problem("Entity set 'MuseumContext.articles'  is null.");
+              return Problem("Entity set 'Museumcontext.Articles'  is null.");
           }
-            _context.articles.Add(article);
+            _context.Articles.Add(article);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetArticle", new { id = article.ArticleID }, article);
@@ -100,17 +100,17 @@ namespace MuseumApi.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteArticle(Guid id)
         {
-            if (_context.articles == null)
+            if (_context.Articles == null)
             {
                 return NotFound();
             }
-            var article = await _context.articles.FindAsync(id);
+            var article = await _context.Articles.FindAsync(id);
             if (article == null)
             {
                 return NotFound();
             }
 
-            _context.articles.Remove(article);
+            _context.Articles.Remove(article);
             await _context.SaveChangesAsync();
 
             return NoContent();
@@ -118,7 +118,7 @@ namespace MuseumApi.Controllers
 
         private bool ArticleExists(Guid id)
         {
-            return (_context.articles?.Any(e => e.ArticleID == id)).GetValueOrDefault();
+            return (_context.Articles?.Any(e => e.ArticleID == id)).GetValueOrDefault();
         }
     }
 }
