@@ -4,11 +4,13 @@ namespace MuseumApi.Models
 {
   public class Museum
   {
-    public Guid id { get; set; }
+    public Guid MuseumID { get; set; }
 
-    public string name { get; set; }
+    public string Name { get; set; }
 
-    public Theme theme { get; set; }
+    public Theme? Theme { get; set; }
+
+    public virtual ICollection<Article> Articles { get; set; }
   }
 }
 

@@ -10,4 +10,5 @@ public class MuseumContext : DbContext
   {
   }
   public DbSet<Museum> museums { get; set; } = null!;
+  public DbSet<Article> articles { get; set; } = null!;
 }

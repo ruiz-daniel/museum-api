@@ -12,55 +12,55 @@ namespace MuseumApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MuseumController : ControllerBase
+    public class ArticleController : ControllerBase
     {
         private readonly MuseumContext _context;
 
-        public MuseumController(MuseumContext context)
+        public ArticleController(MuseumContext context)
         {
             _context = context;
         }
 
-        // GET: api/Museum
+        // GET: api/Article
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Museum>>> Getmuseums()
+        public async Task<ActionResult<IEnumerable<Article>>> Getarticles()
         {
-          if (_context.museums == null)
+          if (_context.articles == null)
           {
               return NotFound();
           }
-            return await _context.museums.ToListAsync();
+            return await _context.articles.ToListAsync();
         }
 
-        // GET: api/Museum/5
+        // GET: api/Article/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Museum>> GetMuseum(Guid id)
+        public async Task<ActionResult<Article>> GetArticle(Guid id)
         {
-          if (_context.museums == null)
+          if (_context.articles == null)
           {
               return NotFound();
           }
-            var museum = await _context.museums.FindAsync(id);
+            var article = await _context.articles.FindAsync(id);
 
-            if (museum == null)
+            if (article == null)
             {
                 return NotFound();
             }
 
-            return museum;
+            return article;
         }
 
-        // PUT: api/Museum/5
+        // PUT: api/Article/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMuseum(Guid id, Museum museum)
+        public async Task<IActionResult> PutArticle(Guid id, Article article)
         {
-            if (id != museum.MuseumID)
+            if (id != article.ArticleID)
             {
                 return BadRequest();
             }
 
-            _context.Entry(museum).State = EntityState.Modified;
+            _context.Entry(article).State = EntityState.Modified;
 
             try
             {
@@ -68,7 +68,7 @@ namespace MuseumApi.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MuseumExists(id))
+                if (!ArticleExists(id))
                 {
                     return NotFound();
                 }
@@ -81,44 +81,44 @@ namespace MuseumApi.Controllers
             return NoContent();
         }
 
-        // POST: api/Museum
+        // POST: api/Article
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Museum>> PostMuseum(Museum museum)
+        public async Task<ActionResult<Article>> PostArticle(Article article)
         {
-          if (_context.museums == null)
+          if (_context.articles == null)
           {
-              return Problem("Entity set 'MuseumContext.museums'  is null.");
+              return Problem("Entity set 'MuseumContext.articles'  is null.");
           }
-            _context.museums.Add(museum);
+            _context.articles.Add(article);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMuseum", new { id = museum.MuseumID }, museum);
+            return CreatedAtAction("GetArticle", new { id = article.ArticleID }, article);
         }
 
-        // DELETE: api/Museum/5
+        // DELETE: api/Article/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMuseum(Guid id)
+        public async Task<IActionResult> DeleteArticle(Guid id)
         {
-            if (_context.museums == null)
+            if (_context.articles == null)
             {
                 return NotFound();
             }
-            var museum = await _context.museums.FindAsync(id);
-            if (museum == null)
+            var article = await _context.articles.FindAsync(id);
+            if (article == null)
             {
                 return NotFound();
             }
 
-            _context.museums.Remove(museum);
+            _context.articles.Remove(article);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MuseumExists(Guid id)
+        private bool ArticleExists(Guid id)
         {
-            return (_context.museums?.Any(e => e.MuseumID == id)).GetValueOrDefault();
+            return (_context.articles?.Any(e => e.ArticleID == id)).GetValueOrDefault();
         }
     }
 }
