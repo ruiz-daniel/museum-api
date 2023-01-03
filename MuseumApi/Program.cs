@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using MuseumApi.Contexts;
+using MuseumApi.DAL;
 
 var builder = WebApplication.CreateBuilder(args);
 

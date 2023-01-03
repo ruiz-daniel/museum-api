@@ -1,7 +1,7 @@
 using MuseumApi.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MuseumApi.Contexts;
+namespace MuseumApi.DAL;
 
 public class MuseumContext : DbContext
 {

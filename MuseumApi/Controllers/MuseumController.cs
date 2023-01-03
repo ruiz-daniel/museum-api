@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using MuseumApi.Contexts;
+using MuseumApi.DAL;
 using MuseumApi.Models;
 
 namespace MuseumApi.Controllers
