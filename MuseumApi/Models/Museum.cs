@@ -4,7 +4,7 @@ namespace MuseumApi.Models
 {
   public class Museum
   {
-    public string id { get; set; }
+    public Guid id { get; set; }
 
     public string name { get; set; }
 

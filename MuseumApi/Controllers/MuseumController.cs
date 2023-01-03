@@ -34,7 +34,7 @@ namespace MuseumApi.Controllers
 
         // GET: api/Museum/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Museum>> GetMuseum(string id)
+        public async Task<ActionResult<Museum>> GetMuseum(Guid id)
         {
           if (_context.museums == null)
           {
@@ -51,8 +51,9 @@ namespace MuseumApi.Controllers
         }
 
         // PUT: api/Museum/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMuseum(string id, Museum museum)
+        public async Task<IActionResult> PutMuseum(Guid id, Museum museum)
         {
             if (id != museum.id)
             {
@@ -90,28 +91,14 @@ namespace MuseumApi.Controllers
               return Problem("Entity set 'MuseumContext.museums'  is null.");
           }
             _context.museums.Add(museum);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (MuseumExists(museum.id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetMuseum", new { id = museum.id }, museum);
         }
 
         // DELETE: api/Museum/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMuseum(string id)
+        public async Task<IActionResult> DeleteMuseum(Guid id)
         {
             if (_context.museums == null)
             {
@@ -129,7 +116,7 @@ namespace MuseumApi.Controllers
             return NoContent();
         }
 
-        private bool MuseumExists(string id)
+        private bool MuseumExists(Guid id)
         {
             return (_context.museums?.Any(e => e.id == id)).GetValueOrDefault();
         }
