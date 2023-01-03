@@ -1,5 +1,8 @@
 
 MuseumApi/bin/*
 MuseumApi/obj/*
-MuseumApi/obj/Debug/*
+MuseumApi/obj/Debug/net7.0/*
 *.cache
+MuseumApi/obj/Debug/net7.0/project.razor.json
+MuseumApi/obj/Debug/net7.0/MuseumApi.GeneratedMSBuildEditorConfig.editorconfig
+MuseumApi/obj/Debug/net7.0/MuseumApi.assets.cache
