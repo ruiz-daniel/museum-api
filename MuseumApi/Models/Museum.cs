@@ -10,7 +10,7 @@ namespace MuseumApi.Models
 
     public Theme? Theme { get; set; }
 
-    public virtual ICollection<Article> Articles { get; set; }
+    public virtual ICollection<Article>? Articles { get; set; }
   }
 }
 
