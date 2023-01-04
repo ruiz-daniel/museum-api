@@ -10,6 +10,18 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<MuseumContext>(opt =>
     opt.UseInMemoryDatabase("TodoList"));
+builder.Services.AddCors(options =>
+                {
+                  options
+                      .AddDefaultPolicy(builder =>
+                      {
+                        builder
+                              .WithOrigins("http://localhost")
+                              .AllowAnyHeader()
+                              .AllowAnyMethod()
+                              .AllowAnyOrigin();
+                      });
+                });
 
 var app = builder.Build();
 
@@ -24,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors();
 
 app.MapControllers();
 
