@@ -50,6 +50,20 @@ namespace MuseumApi.Controllers
             return museum;
         }
 
+    [HttpGet("theme/{theme}")]
+    public async Task<ActionResult<IEnumerable<Museum>>> GetMuseumByTheme(string theme)
+    {
+      if (_context.Museums == null)
+      {
+        return NotFound();
+      }
+      var museums = await _context.Museums.Where(museum => museum.Theme == theme).ToListAsync();
+
+      
+
+      return museums;
+    }
+
         // PUT: api/Museum/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
