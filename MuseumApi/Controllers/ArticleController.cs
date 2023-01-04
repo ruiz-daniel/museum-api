@@ -50,6 +50,18 @@ namespace MuseumApi.Controllers
       return article;
     }
 
+    [HttpGet("museum/{museumID}")]
+    public async Task<ActionResult<IEnumerable<Article>>> GetArticlesFromMuseum(Guid museumID)
+    {
+      if (_context.Articles == null)
+      {
+        return NotFound();
+      }
+      var articles = await _context.Articles.Where(article => article.MuseumID == museumID).ToListAsync();
+
+      return articles;
+    }
+
     // PUT: api/Article/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
     [HttpPut("{id}")]

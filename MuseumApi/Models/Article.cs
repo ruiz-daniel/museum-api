@@ -11,7 +11,5 @@ namespace MuseumApi.Models
     public Boolean Damaged { get; set; } = false;
 
     public Guid? MuseumID { get; set; }
-
-    public virtual Museum? Museum { get; set; }
   }
 }
