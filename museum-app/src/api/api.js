@@ -84,7 +84,7 @@ export default {
     apiClient
       .request({
         method: 'put',
-        url: `Museum/${museum.museumID}`,
+        url: 'Museum/',
         data: museum,
       })
       .then((response) => {
@@ -147,7 +147,7 @@ export default {
     apiClient
       .request({
         method: 'put',
-        url: `Article/${article.articleID}`,
+        url: 'Article/',
         data: article,
       })
       .then((response) => {
