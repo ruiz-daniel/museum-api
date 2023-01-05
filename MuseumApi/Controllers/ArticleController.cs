@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MuseumApi.DAL;
 using MuseumApi.Models;
+using MuseumApi.Services;
 
 namespace MuseumApi.Controllers
 {
@@ -14,33 +15,25 @@ namespace MuseumApi.Controllers
   [ApiController]
   public class ArticleController : ControllerBase
   {
-    private readonly MuseumContext _context;
+    private readonly IUnitOfWork _repositories;
 
-    public ArticleController(MuseumContext context)
+    public ArticleController(IUnitOfWork unitOfWork)
     {
-      _context = context;
+      _repositories = unitOfWork;
     }
 
     // GET: api/Article
     [HttpGet]
     public async Task<ActionResult<IEnumerable<Article>>> Getarticles()
     {
-      if (_context.Articles == null)
-      {
-        return NotFound();
-      }
-      return await _context.Articles.ToListAsync();
+      return await _repositories.Articles.FindAll();
     }
 
     // GET: api/Article/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Article>> GetArticle(Guid id)
     {
-      if (_context.Articles == null)
-      {
-        return NotFound();
-      }
-      var article = await _context.Articles.FindAsync(id);
+      var article = await _repositories.Articles.Find(id);
 
       if (article == null)
       {
@@ -53,41 +46,23 @@ namespace MuseumApi.Controllers
     [HttpGet("museum/{museumID}")]
     public async Task<ActionResult<IEnumerable<Article>>> GetArticlesFromMuseum(Guid museumID)
     {
-      if (_context.Articles == null)
-      {
-        return NotFound();
-      }
-      var articles = await _context.Articles.Where(article => article.MuseumID == museumID).ToListAsync();
+      var articles = await _repositories.Articles.FindBy(article => article.MuseumID == museumID);
 
       return articles;
     }
 
     // PUT: api/Article/5
     // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-    [HttpPut("{id}")]
-    public async Task<IActionResult> PutArticle(Guid id, Article article)
+    [HttpPut]
+    public async Task<IActionResult> PutArticle(Article article)
     {
-      if (id != article.ArticleID)
-      {
-        return BadRequest();
-      }
-
-      _context.Entry(article).State = EntityState.Modified;
-
       try
       {
-        await _context.SaveChangesAsync();
+        await _repositories.Articles.UpdateAsync(article);
       }
       catch (DbUpdateConcurrencyException)
       {
-        if (!ArticleExists(id))
-        {
-          return NotFound();
-        }
-        else
-        {
-          throw;
-        }
+        throw;
       }
 
       return NoContent();
@@ -98,12 +73,7 @@ namespace MuseumApi.Controllers
     [HttpPost]
     public async Task<ActionResult<Article>> PostArticle(Article article)
     {
-      if (_context.Articles == null)
-      {
-        return Problem("Entity set 'Museumcontext.Articles'  is null.");
-      }
-      _context.Articles.Add(article);
-      await _context.SaveChangesAsync();
+      await _repositories.Articles.CreateAsync(article);
 
       return CreatedAtAction("GetArticle", new { id = article.ArticleID }, article);
     }
@@ -112,25 +82,15 @@ namespace MuseumApi.Controllers
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteArticle(Guid id)
     {
-      if (_context.Articles == null)
-      {
-        return NotFound();
-      }
-      var article = await _context.Articles.FindAsync(id);
+      var article = await _repositories.Articles.Find(id);
       if (article == null)
       {
         return NotFound();
       }
 
-      _context.Articles.Remove(article);
-      await _context.SaveChangesAsync();
+      await _repositories.Articles.DeleteAsync(article);
 
       return NoContent();
-    }
-
-    private bool ArticleExists(Guid id)
-    {
-      return (_context.Articles?.Any(e => e.ArticleID == id)).GetValueOrDefault();
     }
   }
 }

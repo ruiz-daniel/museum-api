@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MuseumApi.DAL;
+using MuseumApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +23,7 @@ builder.Services.AddCors(options =>
                               .AllowAnyOrigin();
                       });
                 });
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
