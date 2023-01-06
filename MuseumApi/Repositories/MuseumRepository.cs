@@ -2,6 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using MuseumApi.Models;
 using MuseumApi.DAL;
 
+using System.Linq;
+using System.Linq.Expressions;
+
 namespace MuseumApi.Repositories
 {
   public class MuseumRepository : GenericRepository<Museum>
@@ -82,6 +85,19 @@ namespace MuseumApi.Repositories
       _context.SaveChanges();
     }
 
+    new public async Task<List<Museum>> FindAll()
+    {
+      var museums = await _context.Museums.ToListAsync();
+
+      foreach (Museum museum in museums)
+      {
+        var theme = await _context.Themes.FindAsync(museum.ThemeID);
+        museum.Theme = theme;
+      }
+
+      return museums;
+    }
+
     new public async Task<Museum> Find(Guid id)
     {
       var museum = await _context.Museums.FindAsync(id);
@@ -90,9 +106,26 @@ namespace MuseumApi.Repositories
       {
         var articles = await _context.Articles.Where(article => article.MuseumID == museum.MuseumID).ToListAsync();
         museum.Articles = articles;
+
+        var theme = await _context.Themes.FindAsync(museum.ThemeID);
+        museum.Theme = theme;
       }
 
       return museum;
+    }
+
+    new public async Task<List<Museum>> FindBy(Expression<Func<Museum, bool>> expression)
+    {
+      var museums = await _context.Set<Museum>().Where(expression).ToListAsync();
+
+      foreach (Museum museum in museums)
+      {
+        var theme = await _context.Themes.FindAsync(museum.ThemeID);
+        museum.Theme = theme;
+      }
+
+      return museums;
+
     }
 
     public async Task<List<Theme>> GetThemes()
