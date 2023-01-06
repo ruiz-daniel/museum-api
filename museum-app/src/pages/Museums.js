@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import api from '../api/api'
 
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { DataTable } from 'primereact/datatable'
 import { Column } from 'primereact/column'
@@ -11,14 +11,17 @@ import MuseumForm from '../components/MuseumForm'
 
 const Museums = () => {
   const navigate = useNavigate()
+  const [queryParams] = useSearchParams()
+  const theme = queryParams.get('theme')
   const [museums, setMuseums] = useState([])
   const [addModal, toggleAddModal] = useState(false)
   const [editModal, toggleEditModal] = useState(false)
   const [selectedMuseum, setSelectedMuseum] = useState()
 
+  
   useEffect(() => {
-    api.getMuseums(handleMuseums)
-  }, [])
+    theme ? api.getMuseumsByTheme(theme, handleMuseums) : api.getMuseums(handleMuseums)
+  }, [theme])
 
   const handleMuseums = (data) => {
     setMuseums(data)
