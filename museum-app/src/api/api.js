@@ -109,6 +109,16 @@ export default {
         console.log(error)
       })
   },
+  getThemes(callback) {
+    apiClient
+      .request({ method: 'get', url: 'Museum/theme' })
+      .then((response) => {
+        if (callback) callback(response.data)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  },
   getArticles(callback) {
     apiClient
       .request({ method: 'get', url: 'Article' })

@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { InputText } from 'primereact/inputtext'
 import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
+import api from '../api/api'
 
 const MuseumForm = ({ onSubmit, onCancel, museum }) => {
-  const [name, setName] = useState(museum ? museum.name : '')
+  const [name, setName] = useState(museum ? museum.name : 'New Museum')
   const [theme, setTheme] = useState(museum && museum.theme)
+  const [themes, setThemes] = useState([])
 
-  const themes = ['Art', 'Natural Science', 'History']
+  useEffect(() => {
+    api.getThemes(setThemes)
+  }, [])
 
-  const handleSubmit = () =>  {
-    museum ? onSubmit({ museumID: museum.museumID, name, theme}) : onSubmit({name, theme})
-    
+  const handleSubmit = () => {
+    museum
+      ? onSubmit({ museumID: museum.museumID, name, theme })
+      : onSubmit({ name, theme })
   }
 
   return (
@@ -22,6 +27,7 @@ const MuseumForm = ({ onSubmit, onCancel, museum }) => {
         <InputText value={name} onChange={(e) => setName(e.target.value)} />
         <h4>Theme</h4>
         <Dropdown
+          optionLabel="name"
           value={theme}
           options={themes}
           onChange={(e) => setTheme(e.value)}

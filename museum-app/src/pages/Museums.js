@@ -102,7 +102,7 @@ const Museums = () => {
         List of museums
         <Button
           icon="pi pi-plus"
-          className="p-button-rounded p-button-sm"
+          className="ml-4 p-button-rounded p-button-sm"
           onClick={() => {
             toggleAddModal(true)
           }}
@@ -134,7 +134,10 @@ const Museums = () => {
       {museums && (
         <DataTable value={museums} responsiveLayout="scroll">
           <Column field="name" header="Name" />
-          <Column field="theme" header="Theme" />
+          <Column
+            header="Theme"
+            body={(rowData) => <p>{rowData.theme.name}</p>}
+          />
           <Column body={optionsTemplate} />
         </DataTable>
       )}
