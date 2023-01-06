@@ -8,19 +8,39 @@ namespace MuseumApi.Repositories
   {
     public MuseumRepository(MuseumContext context) : base(context)
     {
+      Initialize();
+    }
 
+    public async void Initialize()
+    {
       // Look for any museum.
-      if (context.Museums.Any())
+      if (_context.Museums.Any())
       {
         return;   // Data was already seeded
       }
 
       // Initialize data
-      context.Museums.AddRange(
+      await _context.Themes.AddRangeAsync(
+      new Theme
+      {
+        ThemeID = 1,
+        name = "Art"
+      },
+      new Theme
+      {
+        ThemeID = 2,
+        name = "History"
+      },
+      new Theme
+      {
+        ThemeID = 3,
+        name = "Natural Science"
+      });
+      await _context.Museums.AddRangeAsync(
           new Museum
           {
             Name = "Art Museum",
-            Theme = "Art",
+            ThemeID = 1,
             Articles = new List<Article>() {
                     new Article {
                         Name = "Painting 1",
@@ -38,8 +58,8 @@ namespace MuseumApi.Repositories
           },
           new Museum
           {
-            Name = "Histtory Museum",
-            Theme = "History",
+            Name = "History Museum",
+            ThemeID = 2,
             Articles = new List<Article>() {
                     new Article {
                         Name = "Statue 1",
@@ -54,13 +74,12 @@ namespace MuseumApi.Repositories
           },
           new Museum
           {
-            Name = "Science",
-            Theme = "Natural Science"
+            Name = "Science Museum",
+            ThemeID = 3
           }
       );
 
-      context.SaveChanges();
-
+      _context.SaveChanges();
     }
 
     new public async Task<Museum> Find(Guid id)
@@ -74,6 +93,13 @@ namespace MuseumApi.Repositories
       }
 
       return museum;
+    }
+
+    public async Task<List<Theme>> GetThemes()
+    {
+      var themes = await _context.Themes.ToListAsync();
+
+      return themes;
     }
   }
 }

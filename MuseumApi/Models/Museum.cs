@@ -8,7 +8,9 @@ namespace MuseumApi.Models
 
     public string Name { get; set; }
 
-    public string? Theme { get; set; }
+    public int ThemeID { get; set; }
+
+    public virtual Theme? Theme { get; set; }
 
     public virtual ICollection<Article>? Articles { get; set; }
   }

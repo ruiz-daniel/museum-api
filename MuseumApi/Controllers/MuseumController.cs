@@ -24,7 +24,7 @@ namespace MuseumApi.Controllers
 
     // GET: api/Museum
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<Museum>>> Getmuseums()
+    public async Task<ActionResult<IEnumerable<Museum>>> GetMuseums()
     {
       return await _repositories.Museums.FindAll();
     }
@@ -43,11 +43,11 @@ namespace MuseumApi.Controllers
       return museum;
     }
 
-    [HttpGet("theme/{theme}")]
-    public async Task<ActionResult<IEnumerable<Museum>>> GetMuseumByTheme(string theme)
+    [HttpGet("theme/{themeID}")]
+    public async Task<ActionResult<IEnumerable<Museum>>> GetMuseumByTheme(int themeID)
     {
 
-      var museums = await _repositories.Museums.FindBy(museum => museum.Theme == theme);
+      var museums = await _repositories.Museums.FindBy(museum => museum.ThemeID == themeID);
 
       return museums;
     }
@@ -93,5 +93,13 @@ namespace MuseumApi.Controllers
 
       return NoContent();
     }
+
+    [HttpGet("/theme")]
+    public async Task<ActionResult<IEnumerable<Theme>>> GetThemes()
+    {
+      return await _repositories.Museums.GetThemes();
+    }
+
+     
   }
 }
