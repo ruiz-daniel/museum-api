@@ -30,7 +30,7 @@ const Museums = () => {
   }
 
   const handleDetails = (rowData) => {
-    // navigate(`/gateway?id=${rowData._id}`)
+    navigate(`/museum?id=${rowData.museumID}`)
   }
 
   const handleDelete = (rowData) => {
@@ -69,9 +69,9 @@ const Museums = () => {
     return (
       <div>
         <Button
-          // onClick={() => {
-          //   handleDetails(rowData)
-          // }}
+          onClick={() => {
+            handleDetails(rowData)
+          }}
           icon="pi pi-eye"
           iconPos="right"
           className="mr-2 p-button-rounded"
