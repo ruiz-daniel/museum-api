@@ -94,7 +94,7 @@ namespace MuseumApi.Controllers
       return NoContent();
     }
 
-    [HttpGet("/theme")]
+    [HttpGet("theme/")]
     public async Task<ActionResult<IEnumerable<Theme>>> GetThemes()
     {
       return await _repositories.Museums.GetThemes();
