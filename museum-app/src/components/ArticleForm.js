@@ -7,10 +7,10 @@ import { Dropdown } from 'primereact/dropdown'
 import { Button } from 'primereact/button'
 import { Checkbox } from 'primereact/checkbox'
 
-const ArticleForm = ({ onSubmit, onCancel, article }) => {
-  const [name, setName] = useState(article?.name || '')
+const ArticleForm = ({ onSubmit, onCancel, article, currentMuseum }) => {
+  const [name, setName] = useState(article?.name || 'New Article')
   const [damaged, setDamaged] = useState(article?.damaged || false)
-  const [museum, setMuseum] = useState(article?.museum || '')
+  const [museum, setMuseum] = useState(Object.assign({}, currentMuseum))
   const [museumList, setMuseums] = useState([])
 
   const handleSubmit = () => {
@@ -22,13 +22,16 @@ const ArticleForm = ({ onSubmit, onCancel, article }) => {
       })
       onSubmit(article)
     } else {
-      onSubmit({ name, damaged, museumID: museum.muesumID })
+      onSubmit({ name, damaged, museumID: museum.museumID })
     }
   }
 
   useEffect(() => {
     api.getMuseums(handleMuseums)
+    // remove articles field to match with list of museums
+    museum.articles = null
   }, [])
+
   const handleMuseums = (data) => {
     setMuseums(data)
   }

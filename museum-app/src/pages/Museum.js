@@ -23,6 +23,12 @@ const Museum = () => {
     hide()
   }
 
+  const handleCreate = (article) => {
+    api.createArticle(article, () => {
+      api.getMuseum(museumID, handleMuseum)
+    })
+  }
+
   const handleDelete = (article) => {
     api.deleteArticle(article.articleID, () => {
       api.getMuseum(museumID, handleMuseum)
@@ -67,6 +73,19 @@ const Museum = () => {
   return (
     <div className="p-5">
       <Dialog
+        header="New Article"
+        visible={addModal}
+        style={{ width: '40vw' }}
+        modal
+        onHide={hide}
+      >
+        <ArticleForm
+          onSubmit={handleCreate}
+          onCancel={hide}
+          currentMuseum={museum}
+        />
+      </Dialog>
+      <Dialog
         header="Update Article"
         visible={editModal}
         style={{ width: '40vw' }}
@@ -77,16 +96,32 @@ const Museum = () => {
           onSubmit={handleUpdate}
           onCancel={hide}
           article={selectedArticle}
+          currentMuseum={museum}
         />
       </Dialog>
-      <h2>Articles in {museum?.name || 'Museum'}</h2>
+      <h2>
+        Articles in {museum?.name || 'Museum'}{' '}
+        <Button
+          icon="pi pi-plus"
+          className="ml-4 p-button-rounded p-button-sm"
+          onClick={() => {
+            toggleAddModal(true)
+          }}
+        />
+      </h2>
       <div className="flex flex-wrap">
         {museum?.articles.map((article) => {
           return (
-            <Card key={article.articleID} className="mr-4 mb-3" footer={footer(article)}>
+            <Card
+              key={article.articleID}
+              className="mr-4 mb-3"
+              footer={footer(article)}
+            >
               <div className="text-center">
                 <h3>{article.name}</h3>
-                <h4 style={{ color: article.damaged ? 'red' : 'green' }}>{article.damaged ? 'Damaged' : 'Good'}</h4>
+                <h4 style={{ color: article.damaged ? 'red' : 'green' }}>
+                  {article.damaged ? 'Damaged' : 'Good'}
+                </h4>
               </div>
             </Card>
           )
